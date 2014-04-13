@@ -29,7 +29,7 @@ function parse (req) {
   } else {
     return {
       user: pathWithUser[1],
-      note: pathWithUser[2],
+      note: pathWithUser[2] + '.md',
       pathname: '/note'
     }
   }

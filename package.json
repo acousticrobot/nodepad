@@ -20,5 +20,8 @@
   "bugs": {
     "url": "https://github.com/josankapo/nodepad/issues"
   },
-  "homepage": "https://github.com/josankapo/nodepad"
+  "homepage": "https://github.com/josankapo/nodepad",
+  "dependencies": {
+    "marked": "~0.3.2"
+  }
 }
