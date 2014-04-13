@@ -16,13 +16,34 @@ function parse (req) {
     }
   }
 
-  //-> public/css/style.css
+  if (fullpath === '/add') {
+    console.log("routing to add")
+
+    // parse the post data in the req handler
+    return {
+      pathname: "/add",
+    }
+  }
+
+  //-> public/css/:stylesheet.css
   if (fullpath.indexOf('.css') != -1) {
     var file = /([^\/]*)\.css/.exec(fullpath)[1];
     console.log("loading %s.css", file);
     return {
       file: file,
-      pathname: '/css'
+      fileType: 'css',
+      pathname: '/asset'
+    }
+  }
+
+  //-> public/css/:javascript.js
+  if (fullpath.indexOf('.js') != -1) {
+    var file = /([^\/]*)\.js/.exec(fullpath)[1];
+    console.log("loading %s.js", file);
+    return {
+      file: file,
+      fileType: 'js',
+      pathname: '/asset'
     }
   }
 

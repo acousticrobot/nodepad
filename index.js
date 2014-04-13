@@ -6,6 +6,7 @@ var handle = {}
 
 handle["/"] = requestHandlers.index;
 handle["/note"] = requestHandlers.note;
-handle["/css"] = requestHandlers.css;
+handle["/add"] = requestHandlers.add;
+handle["/asset"] = requestHandlers.asset;
 
 server.start(router.route, handle);

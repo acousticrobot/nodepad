@@ -1,6 +1,7 @@
 var noteView = require('views/noteView'),
     path = require('path'),
     fs = require('fs'),
+    querystring = require('querystring');
     marked = require('marked');
 
 function index(pathInfo, req, res){
@@ -13,20 +14,20 @@ function index(pathInfo, req, res){
 
 function note (pathInfo, req, res) {
 
-  var noteTitle = pathInfo.note.substr(0, pathInfo.note.length - 3), // remove .md
-      notepath = path.join(process.cwd(), 'public', 'notes', pathInfo.note),
+  var fileName = pathInfo.note.substr(0, pathInfo.note.length - 3), // remove .md
+      filePath = path.join(process.cwd(), 'public', 'notes', pathInfo.note),
       user = unescape(pathInfo.user);
 
-  fs.exists(notepath, function (exists) {
+  fs.exists(filePath, function (exists) {
 
     if (!exists) {
       res.writeHead(404, {"Content-Type": "text/html"});
-      res.write(noteView.notFound(user,noteTitle));
+      res.write(noteView.notFound(user,fileName));
       res.end();
       return;
     }
 
-    fs.readFile(notepath, "binary", function(err, file) {
+    fs.readFile(filePath, "binary", function(err, text) {
       if(err) {
         res.writeHead(500, {"Content-Type": "text/plain"});
         res.write(err + "\n");
@@ -34,17 +35,42 @@ function note (pathInfo, req, res) {
         return;
       }
 
-      file = marked(file);
+      text = marked(text);
 
       res.writeHead(200);
-      res.write(noteView.html(user,notepath,file));
+      res.write(noteView.html(user,fileName, text));
       res.end();
     });
   })
 }
 
-function css (pathInfo, req, res) {
-  var file = __dirname + '/public/css/' + pathInfo.file + '.css';
+function add (pathInfo, req, res) {
+
+  var postData = "";
+
+  req.setEncoding("utf-8");
+  req.addListener("data", function(postDataChunk) {
+    postData += postDataChunk;
+    console.log("\n\nrecieved post data chunk: %s", postDataChunk);
+  });
+
+  req.addListener("end", function() {
+    var user = querystring.parse(postData).user,
+        fileName = querystring.parse(postData).file,
+        filePath = path.join(process.cwd(), 'public', 'notes', fileName + ".md"),
+        text = querystring.parse(postData).text;
+
+    text = "\n\n@user-" + user + "\n\n" + text;
+    // add to file
+    fs.appendFile(filePath, text, function (err) {
+      console.log("added %s to %s", text, filePath);
+    });
+  });
+}
+
+// serve public css and js files
+function asset (pathInfo, req, res) {
+  var file = __dirname + '/public/' + pathInfo.fileType + '/' + pathInfo.file + '.' + pathInfo.fileType;
 
   fs.exists(file, function (exists) {
     if (!exists) {
@@ -66,4 +92,5 @@ function css (pathInfo, req, res) {
 
 exports.index = index;
 exports.note = note;
-exports.css = css;
+exports.add = add;
+exports.asset = asset;

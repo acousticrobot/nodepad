@@ -1,4 +1,5 @@
 var http = require('http'),
+    io = require('socket.io'),
     url = require('url');
 
 function start (route, handle) {
@@ -9,7 +10,7 @@ function start (route, handle) {
     route(handle, req, res);
   }
 
-  http.createServer(onRequest).listen(8888, '127.0.0.1');
+  io.listen(http.createServer(onRequest).listen(8888, '127.0.0.1'));
 
   console.log("server running on port 8888");
 }
