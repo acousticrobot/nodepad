@@ -3,6 +3,7 @@ function html (user, title, note) {
 <html lang="en">\
 <head>\
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />\
+    <link rel="stylesheet" type="text/css" href="/public/css/style.css">\
     <title>note display</title>\
 </head>\
 <body>\
@@ -17,6 +18,7 @@ function notFound (user,note) {
 <html lang="en">\
 <head>\
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />\
+    <link rel="stylesheet" type="text/css" href="/public/css/style.css">\
     <title>note display</title>\
 </head>\
 <body>\

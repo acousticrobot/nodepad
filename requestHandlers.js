@@ -14,7 +14,7 @@ function index(pathInfo, req, res){
 function note (pathInfo, req, res) {
 
   var noteTitle = pathInfo.note.substr(0, pathInfo.note.length - 3), // remove .md
-      notepath = path.join(process.cwd(), 'notes', pathInfo.note),
+      notepath = path.join(process.cwd(), 'public', 'notes', pathInfo.note),
       user = unescape(pathInfo.user);
 
   fs.exists(notepath, function (exists) {
@@ -40,12 +40,30 @@ function note (pathInfo, req, res) {
       res.write(noteView.html(user,notepath,file));
       res.end();
     });
+  })
+}
 
-    // res.writeHead(200, {'content-type': 'text/html'});
-    // res.write(noteView.html(user,notepath));
-    // res.end();
+function css (pathInfo, req, res) {
+  var file = __dirname + '/public/css/' + pathInfo.file + '.css';
+
+  fs.exists(file, function (exists) {
+    if (!exists) {
+      console.log("404: %s", file);
+      res.writeHead(404, {"Content-Type": "text/plain"});
+      res.write("stylesheet not found");
+      res.end();
+      return
+    }
+
+    fs.readFile(file, function (err, data) {
+      if (err) console.log(err);
+      res.writeHead(200, {'Content-Type': 'text/css'});
+      res.write(data);
+      res.end();
+    });
   })
 }
 
 exports.index = index;
 exports.note = note;
+exports.css = css;
