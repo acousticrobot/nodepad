@@ -5,5 +5,6 @@ var server = require('server'),
 var handle = {}
 
 handle["/"] = requestHandlers.index;
+handle["/note"] = requestHandlers.note;
 
 server.start(router.route, handle);

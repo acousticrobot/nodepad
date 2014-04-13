@@ -1,13 +1,16 @@
 var http = require('http'),
-    url = require('url');
+    url = require('url'),
+    pathParser = require('pathParser');
 
 function start (route, handle) {
 
   function onRequest (req, res) {
-    var pathname = url.parse(req.url).pathname;
-    console.log("req: %s", pathname);
 
-    route(handle, pathname, req, res);
+    path = pathParser.parse(req);
+
+    console.log("req: user: %s, path: %s", path["user"], path["pathname"]);
+
+    route(handle, path, req, res);
   }
 
   http.createServer(onRequest).listen(8888, '127.0.0.1');

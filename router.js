@@ -1,9 +1,9 @@
-function route(handle, pathname, req, res){
-  console.log("routing: %s", pathname);
+function route(handle, path, req, res){
+  console.log("routing: %s", path.pathname);
 
-  if (typeof handle[pathname] === 'function') {
+  if (typeof handle[path.pathname] === 'function') {
 
-    handle[pathname](req, res);
+    handle[path.pathname](path, req, res);
 
   } else {
 
@@ -12,6 +12,5 @@ function route(handle, pathname, req, res){
     res.end();
   };
 }
-
 
 exports.route = route;
