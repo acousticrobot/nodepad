@@ -17,8 +17,6 @@ function start (route, handle) {
     socket.on('send', function(data){
 
       var message = scribe.record(data);
-
-
       io.sockets.emit('message', message);
 
     })

@@ -35,11 +35,14 @@ function note (pathInfo, req, res) {
         res.end();
         return;
       }
-      console.log(text);
-      console.log(/@user\-(.*)/.exec(text));
+
+      // replace all @user- tags
       text = text.replace(/@user\-(.*)/gi,'<div class="user-name">$1</div>');
 
       text = marked(text);
+
+      // drop pre code to next line and color
+      text = text.replace(/<pre><code>/gi, '<pre class="prettyprint"><code>\n');
 
       res.writeHead(200);
       res.write(noteView.html(user,fileName, text));
@@ -87,7 +90,8 @@ function asset (pathInfo, req, res) {
 
     fs.readFile(file, function (err, data) {
       if (err) console.log(err);
-      var type = 'text/' + pathInfo.fileType == 'css' ? 'css' : 'javascript';
+      var type = 'text/';
+      type += pathInfo.fileType == 'css' ? 'css' : 'javascript';
       console.log("type = %s", type);
       res.writeHead(200, {'Content-Type': type});
       res.write(data);

@@ -25,6 +25,10 @@ function record (data) {
   var message = '<div class="user-name">' + data.name + '</div>';
 
   message += marked(data.message);
+
+  // drop pre code to next line
+  message = message.replace(/<pre><code>/gi, '<pre class="prettyprint"><code>\n');
+
   return {"message": message};
 }
 

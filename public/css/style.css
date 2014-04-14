@@ -4,24 +4,58 @@ body {
   font-family: sans-serif;
 }
 
-#send {
-  width: 55px;
-  height: 20px;
-  border: 2px solid #55565A;
+header {
   background-color: #3C4F57;
   color: white;
-  padding-left: 1em;
+  font-family: monospace;
+  max-width: 98%;
 }
 
-#content * {
+#content {
+  background-color: #E2EDF2;
+  max-width: 98%;
+  max-height: 80%;
+  overflow-y: scroll;
+}
+
+#content > * {
   margin-left: 100px;
 }
 
 #content .user-name {
+  font-family: monospace;
   float: left;
   color: #046178;
   margin-left: 0px;
   font-size: .85em;
   padding: 0;
   margin: 0;
+  max-width: 100px;
+}
+
+#content pre.prettyprint {
+  border: none;
+  background-color: #F2F2F2;
+}
+
+#note-form {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  padding-bottom: 1em;
+}
+
+#text {
+  width: 98%;
+}
+
+#send-text, #send-code {
+  width: 95px;
+  height: 20px;
+  border: 2px solid #55565A;
+  background-color: #3C4F57;
+  color: white;
+  padding-left: 1em;
+  margin: .25em;
+  float: left;
 }

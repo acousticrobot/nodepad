@@ -3,17 +3,23 @@ function html (user, file, note) {
 <html lang="en">\
 <head>\
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />\
+    <script type="text/javascript" src="/public/js/run-prettify.js"></script>\
+    <script type="text/javascript" src="/public/js/prettify.js"></script>\
     <script type="text/javascript" src="/public/js/note.js"></script>\
     <script type="text/javascript" src="/public/js/socket.io.js"></script>\
     <link rel="stylesheet" type="text/css" href="/public/css/style.css">\
-    <title>note display</title>\
+    <title>' + file + '</title>\
 </head>\
 <body>\
+  <header>User: ' + user + ' file: ' + file + '</header>\
   <div id="content">' + note + '</div>\
+  <div id="note-form">\
   <textarea id="text" name="text" cols="60" rows="5"></textarea>\
   <input id="name" type="hidden" name="user" value="' + user + '" />\
   <input id="file" type="hidden" name="file" value="' + file + '" />\
-  <div id="send" type="submit">enter</div>\
+  <div id="send-text" type="submit">enter text</div>\
+  <div id="send-code" type="submit">enter code</div>\
+  </div>\
 </body>\
 </html>'
 }

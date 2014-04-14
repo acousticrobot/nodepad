@@ -1,7 +1,13 @@
 window.onload = function() {
 
+  var nodeBook = nodeBook === undefined ? {} : nodeBook ;
+  if (typeof nodeBook !== "object") {
+    throw new Error("nodeBook is not an object!");
+  }
+
   var socket = io.connect('http://localhost:8888'),
-      sendButton = document.getElementById("send"),
+      textButton = document.getElementById("send-text"),
+      codeButton = document.getElementById("send-code"),
       content = document.getElementById("content"),
       name = document.getElementById("name"),
       file = document.getElementById("file"),
@@ -19,14 +25,27 @@ window.onload = function() {
       }
       content.innerHTML = html;
       content.scrollTop = content.scrollHeight;
+
+      if (prettyPrint) {
+        prettyPrint();
+      }
     } else {
         console.log("There is a problem:", data);
     }
   });
 
-  sendButton.onclick = function() {
-    var text = field.value;
-    socket.emit('send', { message: text, name: name.value, file: file.value });
-    field.value = "";
+  textButton.onclick = function() {
+    if (field.value !== "") {
+      socket.emit('send', { message: field.value, name: name.value, file: file.value });
+      field.value = "";
+    }
   };
+
+  codeButton.onclick = function () {
+    if (field.value !== "") {
+      field.value = "```\n" + field.value + "\n```";
+      socket.emit('send', { message: field.value, name: name.value, file: file.value });
+      field.value = "";
+    }
+  }
 }
