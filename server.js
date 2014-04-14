@@ -19,7 +19,7 @@ function start (route, handle) {
       var message = scribe.record(data);
 
 
-      io.sockets.emit('message', data);
+      io.sockets.emit('message', message);
 
     })
   })

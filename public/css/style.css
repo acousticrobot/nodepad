@@ -12,3 +12,16 @@ body {
   color: white;
   padding-left: 1em;
 }
+
+#content * {
+  margin-left: 100px;
+}
+
+#content .user-name {
+  float: left;
+  color: #046178;
+  margin-left: 0px;
+  font-size: .85em;
+  padding: 0;
+  margin: 0;
+}

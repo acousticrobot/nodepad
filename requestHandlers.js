@@ -28,12 +28,16 @@ function note (pathInfo, req, res) {
     }
 
     fs.readFile(filePath, "binary", function(err, text) {
+
       if(err) {
         res.writeHead(500, {"Content-Type": "text/plain"});
         res.write(err + "\n");
         res.end();
         return;
       }
+      console.log(text);
+      console.log(/@user\-(.*)/.exec(text));
+      text = text.replace(/@user\-(.*)/gi,'<div class="user-name">$1</div>');
 
       text = marked(text);
 
