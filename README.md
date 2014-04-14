@@ -1,11 +1,23 @@
 
-An Experimental note taking app using sockets in node.
+An localhost collaborative note-taking app using sockets in node.
 
-## Goals:
+_notice: There are few security features in place. This app is intended to be shared with trusted users over a local network._
 
-  * create new pages in the notebook, which can then be accessed in a chat room
-  * enter into a chatroom through /:user/notebook_page
-  * chat room sessions are written to the notebook pages
-  * entries are tagged by the user
-  * The chat history is saved via git version control, no database used
+## Features
+
+  * Uses sockets to create a chat-room style collaborative note pad  
+  * Notes are saved to a markdown file in public/notes
+  * Markdown and code stying are displayed on the front end
+
+## Use
+
+  * Fork the app to create your own nodepad
+  * `npm install` and `node index.js`
+  * Create a new note: public/notes/my_new_note.md
+  * Navagate browsers to `your.ip.address:8888/user name/my_new_note`
+  * To post text, use the `enter text` button
+  * To enter code, use the `enter code` button
+
+Posted user names and text will be appended to public/notes/my_new_note.md,
+and will also appear on all user screens.
   
