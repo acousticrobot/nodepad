@@ -83,7 +83,9 @@ function asset (pathInfo, req, res) {
 
     fs.readFile(file, function (err, data) {
       if (err) console.log(err);
-      res.writeHead(200, {'Content-Type': 'text/css'});
+      var type = 'text/' + pathInfo.fileType == 'css' ? 'css' : 'javascript';
+      console.log("type = %s", type);
+      res.writeHead(200, {'Content-Type': type});
       res.write(data);
       res.end();
     });

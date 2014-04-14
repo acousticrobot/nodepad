@@ -3,3 +3,12 @@ body {
   color: #55565A;
   font-family: sans-serif;
 }
+
+#send {
+  width: 55px;
+  height: 20px;
+  border: 2px solid #55565A;
+  background-color: #3C4F57;
+  color: white;
+  padding-left: 1em;
+}

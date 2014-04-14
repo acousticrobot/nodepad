@@ -1,37 +1,32 @@
 window.onload = function() {
 
-    console.log("sam i am");
+  var socket = io.connect('http://localhost:8888'),
+      sendButton = document.getElementById("send"),
+      content = document.getElementById("content"),
+      name = document.getElementById("name"),
+      file = document.getElementById("file"),
+      field = document.getElementById("text");
 
-    var messages = [];
-    var socket = io.connect('http://localhost:8888');
-    var field = document.getElementById("field");
-    var sendButton = document.getElementById("send");
-    var content = document.getElementById("content");
-    var name = document.getElementById("name");
+  var messages = [content.innerHTML];
 
-    socket.on('message', function (data) {
-        if(data.message) {
-            messages.push(data);
-            var html = '';
-            for(var i=0; i<messages.length; i++) {
-                html += '<b>' + (messages[i].username ? messages[i].username : 'Server') + ': </b>';
-                html += messages[i].message + '<br />';
-            }
-            content.innerHTML = html;
-            content.scrollTop = content.scrollHeight;
-        } else {
-            console.log("There is a problem:", data);
-        }
-    });
+  socket.on('message', function (data) {
+    console.log(data);
+    if(data.message) {
+      messages.push(data.message);
+      var html = '';
+      for(var i=0; i <messages.length; i++) {
+        html += messages[i];
+      }
+      content.innerHTML = html;
+      content.scrollTop = content.scrollHeight;
+    } else {
+        console.log("There is a problem:", data);
+    }
+  });
 
-    sendButton.onclick = function() {
-        if(name.value == "") {
-            alert("Please type your name!");
-        } else {
-            var text = field.value;
-            socket.emit('send', { message: text, username: name.value });
-            field.value = "";
-        }
-    };
-
+  sendButton.onclick = function() {
+    var text = field.value;
+    socket.emit('send', { message: text, name: name.value, file: file.value });
+    field.value = "";
+  };
 }

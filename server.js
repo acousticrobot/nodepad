@@ -1,6 +1,7 @@
 var http = require('http'),
-    io = require('socket.io'),
-    url = require('url');
+    url = require('url'),
+    scribe = require('scribe');
+
 
 function start (route, handle) {
 
@@ -10,7 +11,18 @@ function start (route, handle) {
     route(handle, req, res);
   }
 
-  io.listen(http.createServer(onRequest).listen(8888, '127.0.0.1'));
+  var io = require('socket.io').listen(http.createServer(onRequest).listen(8888, '127.0.0.1'));
+
+  io.sockets.on('connection', function(socket){
+    socket.on('send', function(data){
+
+      var message = scribe.record(data);
+
+
+      io.sockets.emit('message', data);
+
+    })
+  })
 
   console.log("server running on port 8888");
 }
