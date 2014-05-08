@@ -2,14 +2,14 @@ var url = require('url');
 
 
 function parse (req) {
-  var fullpath = url.parse(req.url).pathname,
-      userReg = /\/([^\/]+)\/(.*)/;
+  var fullpath = url.parse(req.url).pathname;
 
   // Check for known routes:
 
   //-> /
   if (fullpath === '/') {
     console.log("routing to index");
+
     return {
       user: null,
       pathname: '/'
@@ -20,6 +20,7 @@ function parse (req) {
     console.log("routing to add")
 
     // parse the post data in the req handler
+
     return {
       pathname: "/add",
     }
@@ -29,6 +30,7 @@ function parse (req) {
   if (fullpath.indexOf('.css') != -1) {
     var file = /([^\/]*)\.css/.exec(fullpath)[1];
     console.log("loading %s.css", file);
+
     return {
       file: file,
       fileType: 'css',
@@ -40,6 +42,7 @@ function parse (req) {
   if (fullpath.indexOf('.js') != -1) {
     var file = /([^\/]*)\.js/.exec(fullpath)[1];
     console.log("loading %s.js", file);
+
     return {
       file: file,
       fileType: 'js',
@@ -47,15 +50,19 @@ function parse (req) {
     }
   }
 
+   // Route users to existing notes
   //-> /:user/pathname
 
-  var pathWithUser = userReg.exec(fullpath);
+  var userReg = /\/([^\/]+)\/(.*)/,
+      pathWithUser = userReg.exec(fullpath);
 
   if (pathWithUser === null) {
+
     return {
       user: null,
       pathname: null
     }
+
   } else {
 
     console.log("routing to User: %s, Note: %s", unescape(pathWithUser[1]), pathWithUser[2]);

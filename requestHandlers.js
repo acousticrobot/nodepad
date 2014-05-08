@@ -63,8 +63,18 @@ function add (pathInfo, req, res) {
 
   req.addListener("end", function() {
     var user = querystring.parse(postData).user,
-        fileName = querystring.parse(postData).file,
-        filePath = path.join(process.cwd(), 'public', 'notes', fileName + ".md"),
+        fileName = querystring.parse(postData).file;
+
+    // check for direct access to the add/ path
+    if (user === undefined || fileName === undefined) {
+      console.log("error accessing /add without parameters");
+      res.writeHead(404, {"Content-Type": "text/plain"});
+      res.write("page not found");
+      res.end();
+      return
+    };
+
+    var filePath = path.join(process.cwd(), 'public', 'notes', fileName + ".md"),
         text = querystring.parse(postData).text;
 
     text = "\n\n@user-" + user + "\n\n" + text;
